@@ -4,7 +4,7 @@
 #include "../State/State.h"
 #include "../Tape/Tape.h"
 
-class MLogic {
+class TuringMachineLogic {
 private:
     Tape tape;                       
     std::map<std::string, State> states; 
@@ -16,10 +16,10 @@ private:
     void ParseInitialTape(const std::string& line);               
 
 public:
-    MLogic();                       
+    TuringMachineLogic();
     void LoadFromFile(const std::string& filename); 
     bool Step();                     
     std::string GetCurrentState() const; 
     std::string GetTapeString() const;
-    ~MLogic() = default;
+    ~TuringMachineLogic() = default;
 };

@@ -1,14 +1,14 @@
-#include "Tttgame.h"
+#include "TttGame.h"
 #include <iostream>
 #include <conio.h>
 #include <windows.h>
 
-Tttgame::Tttgame(int width, int height) {
+TttGame::TttGame(int width, int height) {
     this->width = (width >= 3 ? width : 3);
     this->height = (height >= 3 ? height : 3);
 }
 
-void Tttgame::game() { 
+void TttGame::game() {
     mainmenu();
     Board board(width, height, '*');
 
@@ -44,7 +44,7 @@ void Tttgame::game() {
     }
 }
 
-bool Tttgame::placementHandler(Board& board, int& whosMooveCounter) {
+bool TttGame::placementHandler(Board& board, int& whosMooveCounter) {
     int i, j;
     std::cout << "Сейчас ходит :" << ((whosMooveCounter % 2 == 0) ? 'X' : 'O') << " (i j): ";
     cellSelection(board, i, j);
@@ -62,7 +62,7 @@ bool Tttgame::placementHandler(Board& board, int& whosMooveCounter) {
     return 0;
 }
 
-void Tttgame::checkAccessHandler(Board& board) {
+void TttGame::checkAccessHandler(Board& board) {
     int i, j;
 
     std::cout << "Введите координаты нужной клетки: ";
@@ -71,7 +71,7 @@ void Tttgame::checkAccessHandler(Board& board) {
     Sleep(750);
 }
 
-void Tttgame::checkCellsUnitHandler(Board& board) {
+void TttGame::checkCellsUnitHandler(Board& board) {
     int i, j;
     std::cout << "Введите координаты нужной клетки: ";
     while (std::cin >> i >> j) {
@@ -89,7 +89,7 @@ void Tttgame::checkCellsUnitHandler(Board& board) {
     Sleep(750);
 }
 
-bool Tttgame::cellSelection(const Board board, int& i, int& j) {
+bool TttGame::cellSelection(const Board board, int& i, int& j) {
     int icheckboof, jcheckboof;
     std::cout << "Введите координаты нужной клетки: ";
     while (std::cin >> icheckboof >> jcheckboof) {

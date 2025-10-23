@@ -1,24 +1,20 @@
 #pragma once
 #include <string>
-#include <vector>
+#include <map>
 
 class State{
-public:
-    struct Transition{
-        char read;            
-        char write;           
-        char move;            
-        std::string next;   
-    };
-
 private:
-    std::string name;       
-    std::vector<Transition> transitions; 
+    std::map<char, char> writeMap;
+    std::map<char, char> moveMap;
+    std::map<char, std::string> nextMap;
+    std::string name;
 
 public:
-    explicit State(const std::string& name); 
-    const std::string& GetName() const;      
-    void AddTransition(char read, char write, char move, const std::string& next); 
-    const Transition* FindTransition(char readSymbol) const; 
-    ~State() = default;
+    State(const std::string& n = "");
+    void AddTransition(char read, char write, char move, const std::string& next);
+    bool HasTransition(char read) const;
+    char GetWrite(char read) const;
+    char GetMove(char read) const;
+    std::string GetNext(char read) const;
+    std::string GetName() const;
 };

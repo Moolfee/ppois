@@ -1,6 +1,6 @@
 #pragma once
 
-class Tttmenu {
+class TttMenu {
 protected:
     int width = 3;
     int height = 3;

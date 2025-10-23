@@ -1,10 +1,10 @@
 #pragma once
 #include "../Board/Board.h"
-#include "../Tttmenu/Tttmenu.h"
+#include "../TttMenu/TttMenu.h"
 
-class Tttgame : public Tttmenu {
+class TttGame : public TttMenu {
 public:
-    Tttgame(int w = 3, int h = 3);
+    TttGame(int w = 3, int h = 3);
     void game();
 
 protected:

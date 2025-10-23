@@ -1,19 +1,19 @@
-#include "MLogic.h"
+#include "TuringMachineLogic.h"
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
 
-MLogic::MLogic() : tape(std::string("")), currentState(""){ }
+TuringMachineLogic::TuringMachineLogic() : tape(std::string("")), currentState(""){ }
 
-void MLogic::EnsureStateExists(const std::string& name){
+void TuringMachineLogic::EnsureStateExists(const std::string& name){
     states.try_emplace(name, name);
 }
 
-void MLogic::ParseInitialTape(const std::string& line){
+void TuringMachineLogic::ParseInitialTape(const std::string& line){
     tape = Tape(line);
 }
 
-bool MLogic::ParseRuleLine(const std::string& line){
+bool TuringMachineLogic::ParseRuleLine(const std::string& line){
     std::istringstream iss(line);
     std::string stateName, nextState;
     char readSym = 0, writeSym = 0, direction = 0;
@@ -32,7 +32,7 @@ bool MLogic::ParseRuleLine(const std::string& line){
     return true;
 }
 
-void MLogic::LoadFromFile(const std::string& filename){
+void TuringMachineLogic::LoadFromFile(const std::string& filename){
     std::ifstream in(filename);
     if (!in) 
         throw std::runtime_error("Не удалось открыть файл: " + filename);
@@ -71,29 +71,37 @@ void MLogic::LoadFromFile(const std::string& filename){
     }
 }
 
-bool MLogic::Step(){
-    if (currentState.empty()) 
-        return false; 
+bool TuringMachineLogic::Step() {
+    if (currentState.empty())
+        return false;
+
     auto it = states.find(currentState);
-    if (it == states.end()) 
-        return false;   
-    char cur = tape.GetCurrentSymbol();     
-    const State::Transition* tr = it->second.FindTransition(cur); 
-    if (!tr) 
-        return false;                      
-    tape.WriteSymbol(tr->write);            
-    if (tr->move == 'L') 
-        tape.MoveLeft();   
-    else 
-        if (tr->move == 'R') 
-            tape.MoveRight(); 
-    currentState = tr->next;                
-    return true;                            
+    if (it == states.end())
+        return false;
+
+    char cur = tape.GetCurrentSymbol();
+
+    if (!it->second.HasTransition(cur))
+        return false;
+
+    char write = it->second.GetWrite(cur);
+    char move = it->second.GetMove(cur);
+    std::string next = it->second.GetNext(cur);
+
+    tape.WriteSymbol(write);
+
+    if (move == 'L')
+        tape.MoveLeft();
+    else if (move == 'R')
+        tape.MoveRight();
+
+    currentState = next;
+    return true;
 }
 
-std::string MLogic::GetCurrentState() const{
+std::string TuringMachineLogic::GetCurrentState() const{
     return currentState; 
 } 
-std::string MLogic::GetTapeString() const{
+std::string TuringMachineLogic::GetTapeString() const{
     return tape.ToString(); 
 }

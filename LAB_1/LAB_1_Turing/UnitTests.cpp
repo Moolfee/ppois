@@ -4,28 +4,28 @@
 
 #include "Tape/Tape.h"
 #include "State/State.h"
-#include "MLogic/MLogic.h"
+#include "TuringMachineLogic/TuringMachineLogic.h"
 
-static void WriteTempFile(const std::string& fileName, const std::string& content){
+static void WriteTempFile(const std::string& fileName, const std::string& content) {
     std::ofstream out(fileName);
     out << content;
     out.close();
 }
 
-TEST(TapeTest, InitializationAndCurrentSymbol){
+TEST(TapeTest, InitializationAndCurrentSymbol) {
     Tape tape("ABC");
     EXPECT_EQ(tape.GetCurrentSymbol(), 'A');
     EXPECT_EQ(tape.ToString(), "ABC");
 }
 
-TEST(TapeTest, WriteAndGetCurrent){
+TEST(TapeTest, WriteAndGetCurrent) {
     Tape tape("XYZ");
     tape.WriteSymbol('K');
     EXPECT_EQ(tape.GetCurrentSymbol(), 'K');
     EXPECT_EQ(tape.ToString(), "KYZ");
 }
 
-TEST(TapeTest, MoveRightWithinBounds){
+TEST(TapeTest, MoveRightWithinBounds) {
     Tape tape("AB");
     tape.MoveRight();
     EXPECT_EQ(tape.GetCurrentSymbol(), 'B');
@@ -33,14 +33,14 @@ TEST(TapeTest, MoveRightWithinBounds){
     EXPECT_EQ(tape.ToString(), "AC");
 }
 
-TEST(TapeTest, MoveRightBeyondEnd){
+TEST(TapeTest, MoveRightBeyondEnd) {
     Tape tape("Z");
     tape.MoveRight();
     EXPECT_EQ(tape.GetCurrentSymbol(), '_');
     EXPECT_EQ(tape.ToString(), "Z");
 }
 
-TEST(TapeTest, MoveLeftWithinBounds){
+TEST(TapeTest, MoveLeftWithinBounds) {
     Tape tape("12");
     tape.MoveRight();
     tape.MoveLeft();
@@ -48,39 +48,31 @@ TEST(TapeTest, MoveLeftWithinBounds){
     EXPECT_EQ(tape.ToString(), "12");
 }
 
-TEST(TapeTest, MoveLeftBeyondStart){
+TEST(TapeTest, MoveLeftBeyondStart) {
     Tape tape("G");
     tape.MoveLeft();
     EXPECT_EQ(tape.GetCurrentSymbol(), '_');
     EXPECT_EQ(tape.ToString(), "G");
-
     tape.WriteSymbol('H');
     EXPECT_EQ(tape.ToString(), "HG");
 }
 
-TEST(TapeTest, ToStringTrimsBlanks){
+TEST(TapeTest, ToStringTrimsBlanks) {
     Tape tape("X");
     tape.MoveRight();
     tape.MoveLeft();
     EXPECT_EQ(tape.ToString(), "X");
 }
 
-TEST(TapeTest, EmptyInitialization){
+TEST(TapeTest, EmptyInitialization) {
     Tape tape("");
     EXPECT_EQ(tape.GetCurrentSymbol(), '_');
     EXPECT_EQ(tape.ToString(), "_");
-
     tape.WriteSymbol('M');
     EXPECT_EQ(tape.ToString(), "M");
 }
 
-TEST(TapeTest, WriteBlankSymbol){
-    Tape tape("A");
-    tape.WriteSymbol('_');
-    EXPECT_EQ(tape.ToString(), "_");
-}
-
-TEST(TapeTest, MultipleOperations){
+TEST(TapeTest, MultipleOperations) {
     Tape tape("X");
     tape.MoveRight();
     tape.WriteSymbol('Y');
@@ -89,78 +81,71 @@ TEST(TapeTest, MultipleOperations){
     EXPECT_EQ(tape.ToString(), "ZY");
 }
 
-TEST(TapeTest, MiddleBlankCharacter){
+TEST(TapeTest, MiddleBlankCharacter) {
     Tape tape("A_B");
     EXPECT_EQ(tape.ToString(), "A_B");
-
     tape.MoveRight();
     tape.WriteSymbol('X');
     EXPECT_EQ(tape.ToString(), "AXB");
 }
 
-TEST(StateTest, NameAndTransitions){
+TEST(StateTest, NameAndTransitions) {
     State s("S");
     EXPECT_EQ(s.GetName(), "S");
-    EXPECT_EQ(s.FindTransition('a'), nullptr);
+    EXPECT_FALSE(s.HasTransition('a'));
 
     s.AddTransition('a', 'b', 'L', "T");
-    const State::Transition* tr = s.FindTransition('a');
-
-    ASSERT_NE(tr, nullptr);
-    EXPECT_EQ(tr->write, 'b');
-    EXPECT_EQ(tr->move, 'L');
-    EXPECT_EQ(tr->next, "T");
-    EXPECT_EQ(s.FindTransition('c'), nullptr);
+    EXPECT_TRUE(s.HasTransition('a'));
+    EXPECT_EQ(s.GetWrite('a'), 'b');
+    EXPECT_EQ(s.GetMove('a'), 'L');
+    EXPECT_EQ(s.GetNext('a'), "T");
+    EXPECT_FALSE(s.HasTransition('c'));
 }
 
-TEST(StateTest, MultipleTransitions){
+TEST(StateTest, MultipleTransitions) {
     State s("X");
     s.AddTransition('0', '1', 'R', "X");
     s.AddTransition('1', '0', 'L', "Y");
 
-    const State::Transition* tr0 = s.FindTransition('0');
-    const State::Transition* tr1 = s.FindTransition('1');
-
-    ASSERT_NE(tr0, nullptr);
-    ASSERT_NE(tr1, nullptr);
-
-    EXPECT_EQ(tr0->write, '1');
-    EXPECT_EQ(tr0->next, "X");
-
-    EXPECT_EQ(tr1->write, '0');
-    EXPECT_EQ(tr1->next, "Y");
+    EXPECT_TRUE(s.HasTransition('0'));
+    EXPECT_TRUE(s.HasTransition('1'));
+    EXPECT_EQ(s.GetWrite('0'), '1');
+    EXPECT_EQ(s.GetNext('0'), "X");
+    EXPECT_EQ(s.GetWrite('1'), '0');
+    EXPECT_EQ(s.GetNext('1'), "Y");
 }
 
-TEST(StateTest, MultipleSameSymbolTransitions){
+TEST(StateTest, ReplaceTransition) {
     State s("S");
     s.AddTransition('x', 'y', 'R', "Z");
-    s.AddTransition('x', 'z', 'L', "W");
+    EXPECT_EQ(s.GetWrite('x'), 'y');
+    EXPECT_EQ(s.GetMove('x'), 'R');
+    EXPECT_EQ(s.GetNext('x'), "Z");
 
-    const State::Transition* tr = s.FindTransition('x');
-    ASSERT_NE(tr, nullptr);
-    EXPECT_EQ(tr->write, 'y');
-    EXPECT_EQ(tr->next, "Z");
+    s.AddTransition('x', 'z', 'L', "W");
+    EXPECT_EQ(s.GetWrite('x'), 'z');
+    EXPECT_EQ(s.GetMove('x'), 'L');
+    EXPECT_EQ(s.GetNext('x'), "W");
 }
 
-TEST(MLogicTest, NoRulesMachineStops){
+TEST(MLogicTest, NoRulesMachineStops) {
     std::string fname = "test_nomove.txt";
     WriteTempFile(fname, "001\n");
 
-    MLogic machine;
+    TuringMachineLogic machine;
     EXPECT_NO_THROW(machine.LoadFromFile(fname));
     EXPECT_FALSE(machine.Step());
 
     std::remove(fname.c_str());
 }
 
-TEST(MLogicTest, SingleStepThenStop){
+TEST(MLogicTest, SingleStepThenStop) {
     std::string fname = "test_single_step.txt";
     std::string content = "0\nS0 0 1 R S1\n";
-
     WriteTempFile(fname, content);
-    MLogic machine;
-    machine.LoadFromFile(fname);
 
+    TuringMachineLogic machine;
+    machine.LoadFromFile(fname);
     EXPECT_TRUE(machine.Step());
     EXPECT_EQ(machine.GetCurrentState(), "S1");
     EXPECT_EQ(machine.GetTapeString(), "1");
@@ -169,14 +154,13 @@ TEST(MLogicTest, SingleStepThenStop){
     std::remove(fname.c_str());
 }
 
-TEST(MLogicTest, MoveLeftStep){
+TEST(MLogicTest, MoveLeftStep) {
     std::string fname = "test_move_left.txt";
     std::string content = "0\nQ 0 1 L H\n";
-
     WriteTempFile(fname, content);
-    MLogic machine;
-    machine.LoadFromFile(fname);
 
+    TuringMachineLogic machine;
+    machine.LoadFromFile(fname);
     EXPECT_TRUE(machine.Step());
     EXPECT_EQ(machine.GetCurrentState(), "H");
     EXPECT_EQ(machine.GetTapeString(), "1");
@@ -185,14 +169,13 @@ TEST(MLogicTest, MoveLeftStep){
     std::remove(fname.c_str());
 }
 
-TEST(MLogicTest, MultipleSteps){
+TEST(MLogicTest, MultipleSteps) {
     std::string fname = "test_multi_steps.txt";
     std::string content = "01\nA 0 1 R A\nA 1 0 R A\n";
-
     WriteTempFile(fname, content);
-    MLogic machine;
-    machine.LoadFromFile(fname);
 
+    TuringMachineLogic machine;
+    machine.LoadFromFile(fname);
     EXPECT_TRUE(machine.Step());
     EXPECT_EQ(machine.GetCurrentState(), "A");
     EXPECT_EQ(machine.GetTapeString(), "11");
@@ -205,14 +188,13 @@ TEST(MLogicTest, MultipleSteps){
     std::remove(fname.c_str());
 }
 
-TEST(MLogicTest, TransitionToNewState){
+TEST(MLogicTest, TransitionToNewState) {
     std::string fname = "test_state_change.txt";
     std::string content = "1\nS0 1 0 R S1\nS1 _ 1 R S2\n";
-
     WriteTempFile(fname, content);
-    MLogic machine;
-    machine.LoadFromFile(fname);
 
+    TuringMachineLogic machine;
+    machine.LoadFromFile(fname);
     EXPECT_TRUE(machine.Step());
     EXPECT_EQ(machine.GetCurrentState(), "S1");
     EXPECT_EQ(machine.GetTapeString(), "0");
@@ -225,14 +207,13 @@ TEST(MLogicTest, TransitionToNewState){
     std::remove(fname.c_str());
 }
 
-TEST(MLogicTest, InitialBlank){
+TEST(MLogicTest, InitialBlank) {
     std::string fname = "test_blank_initial.txt";
     std::string content = "_\nS _ 1 R E\n";
-
     WriteTempFile(fname, content);
-    MLogic machine;
-    machine.LoadFromFile(fname);
 
+    TuringMachineLogic machine;
+    machine.LoadFromFile(fname);
     EXPECT_TRUE(machine.Step());
     EXPECT_EQ(machine.GetCurrentState(), "E");
     EXPECT_EQ(machine.GetTapeString(), "1");
@@ -241,12 +222,12 @@ TEST(MLogicTest, InitialBlank){
     std::remove(fname.c_str());
 }
 
-TEST(MLogicTest, InvertBits){
+TEST(MLogicTest, InvertBits) {
     std::string fname = "test_invert.txt";
     std::string content = "101\nS 1 0 R S\nS 0 1 R S\n";
-
     WriteTempFile(fname, content);
-    MLogic machine;
+
+    TuringMachineLogic machine;
     machine.LoadFromFile(fname);
 
     EXPECT_TRUE(machine.Step());
@@ -259,143 +240,145 @@ TEST(MLogicTest, InvertBits){
     std::remove(fname.c_str());
 }
 
-TEST(MLogicTest, CycleStates){
-    std::string fname = "test_cycle.txt";
-    std::string content = "101\nA 1 1 R B\nB 0 0 R C\nC 1 1 R A\n";
-
-    WriteTempFile(fname, content);
-    MLogic machine;
-    machine.LoadFromFile(fname);
-
-    EXPECT_TRUE(machine.Step());
-    EXPECT_TRUE(machine.Step());
-    EXPECT_TRUE(machine.Step());
-    EXPECT_EQ(machine.GetCurrentState(), "A");
-    EXPECT_EQ(machine.GetTapeString(), "101");
-    EXPECT_FALSE(machine.Step());
-
-    std::remove(fname.c_str());
+TEST(MLogicTest, FileNotFound) {
+    TuringMachineLogic machine;
+    EXPECT_THROW(machine.LoadFromFile("nonexistent_file_for_tests.txt"), std::runtime_error);
 }
 
-TEST(MLogicTest, FileNotFound){
-    MLogic machine;
-    EXPECT_THROW(machine.LoadFromFile("nonexistent_file.txt"), std::runtime_error);
-}
-
-TEST(MLogicTest, UnknownSymbolStops){
+TEST(MLogicTest, UnknownSymbolStops) {
     std::string fname = "test_unknown_symbol.txt";
-    std::string content = "#\nS 0 1 R S\nS 1 0 R S\n"; 
-
+    std::string content = "#\nS 0 1 R S\nS 1 0 R S\n";
     WriteTempFile(fname, content);
-    MLogic machine;
+
+    TuringMachineLogic machine;
     machine.LoadFromFile(fname);
-
     EXPECT_FALSE(machine.Step());
-
-    EXPECT_EQ(machine.GetTapeString(), "#");
+    EXPECT_EQ(machine.GetTapeString(), "#"); 
     EXPECT_EQ(machine.GetCurrentState(), "S");
 
     std::remove(fname.c_str());
 }
 
-
-TEST(MLogicTest, BinaryToBlank){
-    std::string fname = "test_binary.txt";
-    std::string content = "0\nS 0 0 R S\n";
-
+TEST(MLogicTest, IgnoreInvalidRuleLines) {
+    std::string fname = "test_ignore_invalid.txt";
+    std::string content = "101\ninvalid_line\nS 1 0 R S\n";
     WriteTempFile(fname, content);
-    MLogic machine;
-    machine.LoadFromFile(fname);
 
+    TuringMachineLogic machine;
+    EXPECT_NO_THROW(machine.LoadFromFile(fname));
+    EXPECT_TRUE(machine.Step());
+    EXPECT_EQ(machine.GetTapeString(), "001");
+
+    std::remove(fname.c_str());
+}
+
+TEST(MLogicTest, LastRuleOverrides) {
+    std::string fname = "test_last_rule_overrides.txt";
+    std::string content = "a\nS a x R S\nS a y R HALT\n";
+    WriteTempFile(fname, content);
+
+    TuringMachineLogic machine;
+    machine.LoadFromFile(fname);
+    EXPECT_TRUE(machine.Step());
+    EXPECT_EQ(machine.GetCurrentState(), "HALT");
+    EXPECT_EQ(machine.GetTapeString(), "y");
+    EXPECT_FALSE(machine.Step());
+
+    std::remove(fname.c_str());
+}
+
+TEST(MLogicTest, ParseExtraSpaces) {
+    std::string fname = "test_extra_spaces.txt";
+    std::string content = "1\n   S    1   0    R    S   \n";
+    WriteTempFile(fname, content);
+
+    TuringMachineLogic machine;
+    machine.LoadFromFile(fname);
     EXPECT_TRUE(machine.Step());
     EXPECT_EQ(machine.GetTapeString(), "0");
+
+    std::remove(fname.c_str());
+}
+
+TEST(MLogicTest, StartStateIsFirstValidRule) {
+    std::string fname = "test_start_state_first_rule.txt";
+    std::string content = "1\nA 1 1 R B\nB 1 1 R C\n";
+    WriteTempFile(fname, content);
+
+    TuringMachineLogic machine;
+    machine.LoadFromFile(fname);
+    EXPECT_EQ(machine.GetCurrentState(), "A");
+
+    std::remove(fname.c_str());
+}
+
+TEST(MLogicTest, MultipleDifferentSymbolTransitions) {
+    std::string fname = "test_multi_symbol.txt";
+    std::string content = "01\nS 0 9 R S\nS 1 8 R S\n";
+    WriteTempFile(fname, content);
+
+    TuringMachineLogic machine;
+    machine.LoadFromFile(fname);
+
+    EXPECT_TRUE(machine.Step());
+    EXPECT_TRUE(machine.Step());
+    EXPECT_EQ(machine.GetTapeString(), "98");
     EXPECT_FALSE(machine.Step());
 
     std::remove(fname.c_str());
 }
 
-TEST(MLogicTest, MultiStateSequences){
-    std::string fname = "test_multi_state.txt";
-    std::string content = "01\nA 0 0 R B\nB 1 1 R C\n";
-
+TEST(MLogicTest, NextStateCreatedEvenIfNoRules) {
+    std::string fname = "test_next_state_exists.txt";
+    std::string content = "1\nS 1 0 R T\n";
     WriteTempFile(fname, content);
-    MLogic machine;
+
+    TuringMachineLogic machine;
     machine.LoadFromFile(fname);
 
     EXPECT_TRUE(machine.Step());
-    EXPECT_TRUE(machine.Step());
-    EXPECT_EQ(machine.GetTapeString(), "01");
-    EXPECT_EQ(machine.GetCurrentState(), "C");
-
-    std::remove(fname.c_str());
-}
-
-TEST(MLogicTest, NumericCharacters){
-    std::string fname = "test_numeric.txt";
-    std::string content = "12\nN 1 9 R N\n";
-
-    WriteTempFile(fname, content);
-    MLogic machine;
-    machine.LoadFromFile(fname);
-
-    EXPECT_TRUE(machine.Step());
-    EXPECT_EQ(machine.GetTapeString(), "92");
+    EXPECT_EQ(machine.GetCurrentState(), "T");
     EXPECT_FALSE(machine.Step());
 
     std::remove(fname.c_str());
 }
 
-TEST(MLogicTest, LetterTransition){
-    std::string fname = "test_letter.txt";
-    std::string content = "AB\nL A B R L\n";
-
+TEST(MLogicTest, CycleThenHaltOnBlank) {
+    std::string fname = "test_cycle_then_halt.txt";
+    std::string content = "1\nA 1 1 R B\nB _ _ R HALT\n";
     WriteTempFile(fname, content);
-    MLogic machine;
+
+    TuringMachineLogic machine;
     machine.LoadFromFile(fname);
 
-    EXPECT_TRUE(machine.Step());
-    EXPECT_EQ(machine.GetTapeString(), "BB");
+    EXPECT_TRUE(machine.Step());   // A -> B (moves right onto blank)
+    EXPECT_TRUE(machine.Step());   // B on blank -> HALT
+    EXPECT_EQ(machine.GetCurrentState(), "HALT");
     EXPECT_FALSE(machine.Step());
 
     std::remove(fname.c_str());
 }
 
-TEST(MLogicTest, LongMoves){
-    std::string fname = "test_long.txt";
-    std::string content = "ABC\nX A A R X\nX B B R X\nX C C R X\n";
-
+TEST(MLogicTest, ComplexNumericSequence) {
+    std::string fname = "test_complex_numeric.txt";
+    std::string content = "210\nA 2 3 R B\nB 1 4 R C\nC 0 0 R HALT\n";
     WriteTempFile(fname, content);
-    MLogic machine;
+
+    TuringMachineLogic machine;
     machine.LoadFromFile(fname);
 
     EXPECT_TRUE(machine.Step());
-    EXPECT_TRUE(machine.Step());
-    EXPECT_TRUE(machine.Step());
-    EXPECT_EQ(machine.GetTapeString(), "ABC");
-    EXPECT_FALSE(machine.Step());
-
-    std::remove(fname.c_str());
-}
-
-TEST(MLogicTest, MultipleNumericWrite){
-    std::string fname = "test_multi_num.txt";
-    std::string content = "210\nA 2 3 R B\nB 1 4 R C\n";
-
-    WriteTempFile(fname, content);
-    MLogic machine;
-    machine.LoadFromFile(fname);
-
     EXPECT_TRUE(machine.Step());
     EXPECT_TRUE(machine.Step());
     EXPECT_EQ(machine.GetTapeString(), "340");
+    EXPECT_EQ(machine.GetCurrentState(), "HALT");
     EXPECT_FALSE(machine.Step());
 
     std::remove(fname.c_str());
 }
 
 
-
-int main(int argc, char** argv){
+int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }

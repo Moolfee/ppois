@@ -1,9 +1,9 @@
-#include "Tttmenu.h"
+#include "TttMenu.h"
 #include <iostream>
 #include <conio.h>
 #include <windows.h>
 
-void Tttmenu::mainmenu() {
+void TttMenu::mainmenu() {
     char dir = ' ';
     while (dir != 0x1B) {
         system("cls");
@@ -21,7 +21,7 @@ void Tttmenu::mainmenu() {
     }
 }
 
-void Tttmenu::sizechange() {
+void TttMenu::sizechange() {
     std::cout << "¬ведите ширину (>=3): ";
     while (!(std::cin >> width) || width < 3) {
         std::cin.clear(); std::cin.ignore(10000, '\n');

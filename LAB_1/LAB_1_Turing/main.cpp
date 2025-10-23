@@ -1,5 +1,5 @@
 ﻿#include <iostream>
-#include "MLogic/MLogic.h"
+#include "TuringMachineLogic/TuringMachineLogic.h"
 #include <windows.h>
 
 int main(int argc, char* argv[]){
@@ -28,7 +28,7 @@ int main(int argc, char* argv[]){
         return 1;
     }
 
-    MLogic machine;                             
+    TuringMachineLogic machine;
 
     try{
         machine.LoadFromFile(filePath);      
