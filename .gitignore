@@ -4,6 +4,7 @@
 *.dll
 *.pdb
 *.cache
+*.obj
 
 *.user
 *.userosscache
