@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
 #include <sstream>
 #include <iostream>
-#include "Board/Board.h"
-#include "TttGame/TttGame.h"
+#include "Board.h"
+#include "../TttGame/TttGame.h"
 
 TEST(BoardTest, ConstructorValidSize) {
     EXPECT_NO_THROW(Board(3, 3));
