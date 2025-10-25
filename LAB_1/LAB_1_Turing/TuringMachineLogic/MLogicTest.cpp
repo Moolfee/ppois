@@ -2,130 +2,12 @@
 #include <fstream>
 #include <cstdio>
 
-#include "Tape/Tape.h"
-#include "State/State.h"
-#include "TuringMachineLogic/TuringMachineLogic.h"
+#include "TuringMachineLogic.h"
 
 static void WriteTempFile(const std::string& fileName, const std::string& content) {
     std::ofstream out(fileName);
     out << content;
     out.close();
-}
-
-TEST(TapeTest, InitializationAndCurrentSymbol) {
-    Tape tape("ABC");
-    EXPECT_EQ(tape.GetCurrentSymbol(), 'A');
-    EXPECT_EQ(tape.ToString(), "ABC");
-}
-
-TEST(TapeTest, WriteAndGetCurrent) {
-    Tape tape("XYZ");
-    tape.WriteSymbol('K');
-    EXPECT_EQ(tape.GetCurrentSymbol(), 'K');
-    EXPECT_EQ(tape.ToString(), "KYZ");
-}
-
-TEST(TapeTest, MoveRightWithinBounds) {
-    Tape tape("AB");
-    tape.MoveRight();
-    EXPECT_EQ(tape.GetCurrentSymbol(), 'B');
-    tape.WriteSymbol('C');
-    EXPECT_EQ(tape.ToString(), "AC");
-}
-
-TEST(TapeTest, MoveRightBeyondEnd) {
-    Tape tape("Z");
-    tape.MoveRight();
-    EXPECT_EQ(tape.GetCurrentSymbol(), '_');
-    EXPECT_EQ(tape.ToString(), "Z");
-}
-
-TEST(TapeTest, MoveLeftWithinBounds) {
-    Tape tape("12");
-    tape.MoveRight();
-    tape.MoveLeft();
-    EXPECT_EQ(tape.GetCurrentSymbol(), '1');
-    EXPECT_EQ(tape.ToString(), "12");
-}
-
-TEST(TapeTest, MoveLeftBeyondStart) {
-    Tape tape("G");
-    tape.MoveLeft();
-    EXPECT_EQ(tape.GetCurrentSymbol(), '_');
-    EXPECT_EQ(tape.ToString(), "G");
-    tape.WriteSymbol('H');
-    EXPECT_EQ(tape.ToString(), "HG");
-}
-
-TEST(TapeTest, ToStringTrimsBlanks) {
-    Tape tape("X");
-    tape.MoveRight();
-    tape.MoveLeft();
-    EXPECT_EQ(tape.ToString(), "X");
-}
-
-TEST(TapeTest, EmptyInitialization) {
-    Tape tape("");
-    EXPECT_EQ(tape.GetCurrentSymbol(), '_');
-    EXPECT_EQ(tape.ToString(), "_");
-    tape.WriteSymbol('M');
-    EXPECT_EQ(tape.ToString(), "M");
-}
-
-TEST(TapeTest, MultipleOperations) {
-    Tape tape("X");
-    tape.MoveRight();
-    tape.WriteSymbol('Y');
-    tape.MoveLeft();
-    tape.WriteSymbol('Z');
-    EXPECT_EQ(tape.ToString(), "ZY");
-}
-
-TEST(TapeTest, MiddleBlankCharacter) {
-    Tape tape("A_B");
-    EXPECT_EQ(tape.ToString(), "A_B");
-    tape.MoveRight();
-    tape.WriteSymbol('X');
-    EXPECT_EQ(tape.ToString(), "AXB");
-}
-
-TEST(StateTest, NameAndTransitions) {
-    State s("S");
-    EXPECT_EQ(s.GetName(), "S");
-    EXPECT_FALSE(s.HasTransition('a'));
-
-    s.AddTransition('a', 'b', 'L', "T");
-    EXPECT_TRUE(s.HasTransition('a'));
-    EXPECT_EQ(s.GetWrite('a'), 'b');
-    EXPECT_EQ(s.GetMove('a'), 'L');
-    EXPECT_EQ(s.GetNext('a'), "T");
-    EXPECT_FALSE(s.HasTransition('c'));
-}
-
-TEST(StateTest, MultipleTransitions) {
-    State s("X");
-    s.AddTransition('0', '1', 'R', "X");
-    s.AddTransition('1', '0', 'L', "Y");
-
-    EXPECT_TRUE(s.HasTransition('0'));
-    EXPECT_TRUE(s.HasTransition('1'));
-    EXPECT_EQ(s.GetWrite('0'), '1');
-    EXPECT_EQ(s.GetNext('0'), "X");
-    EXPECT_EQ(s.GetWrite('1'), '0');
-    EXPECT_EQ(s.GetNext('1'), "Y");
-}
-
-TEST(StateTest, ReplaceTransition) {
-    State s("S");
-    s.AddTransition('x', 'y', 'R', "Z");
-    EXPECT_EQ(s.GetWrite('x'), 'y');
-    EXPECT_EQ(s.GetMove('x'), 'R');
-    EXPECT_EQ(s.GetNext('x'), "Z");
-
-    s.AddTransition('x', 'z', 'L', "W");
-    EXPECT_EQ(s.GetWrite('x'), 'z');
-    EXPECT_EQ(s.GetMove('x'), 'L');
-    EXPECT_EQ(s.GetNext('x'), "W");
 }
 
 TEST(MLogicTest, NoRulesMachineStops) {
@@ -253,7 +135,7 @@ TEST(MLogicTest, UnknownSymbolStops) {
     TuringMachineLogic machine;
     machine.LoadFromFile(fname);
     EXPECT_FALSE(machine.Step());
-    EXPECT_EQ(machine.GetTapeString(), "#"); 
+    EXPECT_EQ(machine.GetTapeString(), "#");
     EXPECT_EQ(machine.GetCurrentState(), "S");
 
     std::remove(fname.c_str());
@@ -351,8 +233,8 @@ TEST(MLogicTest, CycleThenHaltOnBlank) {
     TuringMachineLogic machine;
     machine.LoadFromFile(fname);
 
-    EXPECT_TRUE(machine.Step());   // A -> B (moves right onto blank)
-    EXPECT_TRUE(machine.Step());   // B on blank -> HALT
+    EXPECT_TRUE(machine.Step());
+    EXPECT_TRUE(machine.Step());
     EXPECT_EQ(machine.GetCurrentState(), "HALT");
     EXPECT_FALSE(machine.Step());
 
