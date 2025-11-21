@@ -1,0 +1,22 @@
+# Build outputs
+build/
+cmake-build*/
+CMakeFiles/
+CMakeCache.txt
+Testing/
+
+# Compiled and coverage artifacts
+*.o
+*.a
+*.so
+*.dylib
+*.gcda
+*.gcno
+*.gcov
+
+# IDE/system files
+.vscode/
+.idea/
+*.log
+.DS_Store
+Thumbs.db

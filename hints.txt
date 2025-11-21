@@ -1,0 +1,15 @@
+Срборка
+cd /home/moolfee/MyFiles/BSUIR/Ppois
+
+cmake -S LAB_2 -B LAB_2/build
+cmake --build LAB_2/build
+
+Запуск тестов
+./LAB_2/build/gallery_tests
+
+Вывод покрытия
+cd /home/moolfee/MyFiles/BSUIR/Ppois/LAB_2/build
+
+gcovr -r .. --exclude '../build' --exclude '../third_party' \
+      --exclude '.*Test.*'
+

@@ -1,0 +1,29 @@
+# Build and binary outputs
+build/
+cmake-build*/
+[Bb]in/
+[Oo]bj/
+*.o
+*.obj
+*.exe
+*.dll
+*.lib
+*.pdb
+*.so
+*.dylib
+
+# Coverage and debug
+*.gcda
+*.gcno
+*.gcov
+
+# IDE/system noise
+.vscode/
+.idea/
+*.user
+*.suo
+*.ncb
+*.sln.docstates
+*.log
+.DS_Store
+Thumbs.db

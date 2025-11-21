@@ -1,0 +1,31 @@
+# Build outputs
+**/build/
+**/cmake-build*/
+**/CMakeFiles/
+CMakeCache.txt
+Testing/
+
+# Compiled artifacts
+*.o
+*.obj
+*.a
+*.so
+*.dylib
+*.lib
+*.dll
+*.exe
+*.pdb
+*.gcda
+*.gcno
+*.gcov
+
+# Temporary and IDE files
+.vscode/
+.idea/
+*.user
+*.suo
+*.ncb
+*.sln.docstates
+*.log
+.DS_Store
+Thumbs.db
