@@ -37,7 +37,6 @@ TrainPass 3 2 → TravelAgent
 PaymentGateway 3 2 → Invoice  
 Invoice 3 2 → PaymentGateway  
 
-## Исключения (12)
 BookingConflictException 3 2 → ScheduleBoard, TravelAgent  
 PaymentFailureException 3 2 → PaymentGateway, Invoice  
 PassportValidationException 3 2 → VisaApplication, TravelAgent  

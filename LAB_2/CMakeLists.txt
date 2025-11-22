@@ -14,8 +14,16 @@ add_library(gallery_lib ${CLASS_SOURCES})
 target_include_directories(gallery_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_library(simple_gtest STATIC gtest/gtest_main.cpp)
-target_include_directories(simple_gtest PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/gtest)
+target_include_directories(simple_gtest PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/gtest)
 
 add_executable(gallery_tests ${TEST_SOURCES})
 target_include_directories(gallery_tests PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(gallery_tests PRIVATE gallery_lib simple_gtest)
+
+option(ENABLE_COVERAGE "Enable gcov/lcov coverage flags" ON)
+if(ENABLE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+    foreach(target_name IN ITEMS gallery_lib gallery_tests simple_gtest)
+        target_compile_options(${target_name} PRIVATE -O0 -g --coverage)
+        target_link_options(${target_name} PRIVATE --coverage)
+    endforeach()
+endif()
