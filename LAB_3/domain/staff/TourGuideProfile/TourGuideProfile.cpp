@@ -12,6 +12,6 @@ void TourGuideProfile::configureTourGuideProfile(
 
 std::string TourGuideProfile::describeTourGuideProfile() const {
   const bool attached = static_cast<bool>(linkedPartner);
-  return statusLabel + "-" + std::to_string(priorityLevel) +
-         (attached ? "-ready" : "-solo");
+  return statusLabel + "-priority:" + std::to_string(priorityLevel) +
+         (attached ? "-partnered" : "-independent");
 }
