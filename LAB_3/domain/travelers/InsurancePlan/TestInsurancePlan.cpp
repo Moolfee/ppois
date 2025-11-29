@@ -8,3 +8,9 @@ TEST(InsurancePlan, ConfiguresAndDescribes) {
   item.configureInsurancePlan(partner, 2);
   EXPECT_TRUE(!item.describeInsurancePlan().empty());
 }
+
+TEST(InsurancePlan, AddsCoverageAndChecksEmergency) {
+  InsurancePlan plan;
+  plan.addCoverage("emergency");
+  EXPECT_TRUE(plan.coversEmergency());
+}

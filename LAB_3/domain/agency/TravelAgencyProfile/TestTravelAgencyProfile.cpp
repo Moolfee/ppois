@@ -8,3 +8,10 @@ TEST(TravelAgencyProfile, ConfiguresAndDescribes) {
   item.configureTravelAgencyProfile(partner, 2);
   EXPECT_TRUE(!item.describeTravelAgencyProfile().empty());
 }
+
+TEST(TravelAgencyProfile, ManagesMarkets) {
+  TravelAgencyProfile profile;
+  profile.openMarket("EU");
+  profile.pauseMarket();
+  EXPECT_NE(profile.describeTravelAgencyProfile().find("paused"), std::string::npos);
+}

@@ -8,3 +8,9 @@ TEST(TrainPass, ConfiguresAndDescribes) {
   item.configureTrainPass(partner, 2);
   EXPECT_TRUE(!item.describeTrainPass().empty());
 }
+
+TEST(TrainPass, AddsSegmentAndRoutes) {
+  TrainPass pass;
+  pass.addSegment("S1");
+  EXPECT_NE(pass.routeDigest().find("S1"), std::string::npos);
+}

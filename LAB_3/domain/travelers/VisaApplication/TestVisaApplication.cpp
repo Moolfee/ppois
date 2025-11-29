@@ -8,3 +8,9 @@ TEST(VisaApplication, ConfiguresAndDescribes) {
   item.configureVisaApplication(partner, 2);
   EXPECT_TRUE(!item.describeVisaApplication().empty());
 }
+
+TEST(VisaApplication, AttachesDocumentsAndAudits) {
+  VisaApplication application;
+  application.attachDocument("passport");
+  EXPECT_NE(application.auditTrail().find("doc:passport"), std::string::npos);
+}

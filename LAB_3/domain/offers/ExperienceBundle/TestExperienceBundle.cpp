@@ -8,3 +8,9 @@ TEST(ExperienceBundle, ConfiguresAndDescribes) {
   item.configureExperienceBundle(partner, 2);
   EXPECT_TRUE(!item.describeExperienceBundle().empty());
 }
+
+TEST(ExperienceBundle, AddsPerkAndSummarizes) {
+  ExperienceBundle bundle;
+  bundle.addPerk("spa");
+  EXPECT_NE(bundle.bundleSummary().find("perk:spa"), std::string::npos);
+}

@@ -8,3 +8,9 @@ TEST(CityPass, ConfiguresAndDescribes) {
   item.configureCityPass(partner, 2);
   EXPECT_TRUE(!item.describeCityPass().empty());
 }
+
+TEST(CityPass, ActivatesDayAndBecomesActive) {
+  CityPass pass;
+  pass.activateDay(1);
+  EXPECT_TRUE(pass.isActive());
+}

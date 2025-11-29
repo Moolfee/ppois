@@ -8,3 +8,9 @@ TEST(PaymentGateway, ConfiguresAndDescribes) {
   item.configurePaymentGateway(partner, 2);
   EXPECT_TRUE(!item.describePaymentGateway().empty());
 }
+
+TEST(PaymentGateway, FlagsFraudAndOperationalState) {
+  PaymentGateway gateway;
+  gateway.flagFraudAttempt("stolen-card");
+  EXPECT_TRUE(!gateway.isOperational());
+}

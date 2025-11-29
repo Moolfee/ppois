@@ -8,3 +8,9 @@ TEST(ScheduleBoard, ConfiguresAndDescribes) {
   item.configureScheduleBoard(partner, 2);
   EXPECT_TRUE(!item.describeScheduleBoard().empty());
 }
+
+TEST(ScheduleBoard, PostsUpdateAndChecksStaleness) {
+  ScheduleBoard board;
+  board.postUpdate("A1");
+  EXPECT_TRUE(!board.isStale());
+}

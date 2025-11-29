@@ -8,3 +8,9 @@ TEST(FamilyBooking, ConfiguresAndDescribes) {
   item.configureFamilyBooking(partner, 2);
   EXPECT_TRUE(!item.describeFamilyBooking().empty());
 }
+
+TEST(FamilyBooking, AddsTravelersAndChecksEscortNeed) {
+  FamilyBooking booking;
+  booking.addTraveler(5);
+  EXPECT_TRUE(booking.requiresEscort());
+}

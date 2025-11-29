@@ -8,3 +8,11 @@ TEST(TravelPolicy, ConfiguresAndDescribes) {
   item.configureTravelPolicy(partner, 2);
   EXPECT_TRUE(!item.describeTravelPolicy().empty());
 }
+
+TEST(TravelPolicy, EnforceAndRelaxCompliance) {
+  TravelPolicy policy;
+  policy.enforceCompliance();
+  EXPECT_NE(policy.describeTravelPolicy().find("compliant"), std::string::npos);
+  policy.relaxPolicy();
+  EXPECT_NE(policy.describeTravelPolicy().find("relaxed"), std::string::npos);
+}

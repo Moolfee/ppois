@@ -8,3 +8,9 @@ TEST(PartnerHotel, ConfiguresAndDescribes) {
   item.configurePartnerHotel(partner, 2);
   EXPECT_TRUE(!item.describePartnerHotel().empty());
 }
+
+TEST(PartnerHotel, SetsSeasonalRateAndConciergeLine) {
+  PartnerHotel hotel;
+  hotel.setSeasonalRate(3);
+  EXPECT_NE(hotel.conciergeLine().find("vip"), std::string::npos);
+}

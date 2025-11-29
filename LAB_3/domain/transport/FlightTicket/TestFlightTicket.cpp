@@ -8,3 +8,10 @@ TEST(FlightTicket, ConfiguresAndDescribes) {
   item.configureFlightTicket(partner, 2);
   EXPECT_TRUE(!item.describeFlightTicket().empty());
 }
+
+TEST(FlightTicket, UpgradesCabinAndBlocksSeat) {
+  FlightTicket ticket;
+  ticket.upgradeCabin("business");
+  ticket.blockSeat();
+  EXPECT_NE(ticket.describeFlightTicket().find("cabin"), std::string::npos);
+}

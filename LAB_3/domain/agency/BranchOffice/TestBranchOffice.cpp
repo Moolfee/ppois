@@ -8,3 +8,9 @@ TEST(BranchOffice, ConfiguresAndDescribes) {
   item.configureBranchOffice(partner, 2);
   EXPECT_TRUE(!item.describeBranchOffice().empty());
 }
+
+TEST(BranchOffice, ReroutesAndEscalates) {
+  BranchOffice office;
+  office.rerouteCalls();
+  EXPECT_NE(office.escalationPath().find("priority"), std::string::npos);
+}

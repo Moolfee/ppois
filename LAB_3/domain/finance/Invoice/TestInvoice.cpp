@@ -8,3 +8,11 @@ TEST(Invoice, ConfiguresAndDescribes) {
   item.configureInvoice(partner, 2);
   EXPECT_TRUE(!item.describeInvoice().empty());
 }
+
+TEST(Invoice, RecordsPaymentAndReportsStatus) {
+  Invoice item;
+  item.recordPayment(150.0);
+  EXPECT_NE(item.paymentStatus().find("paid"), std::string::npos);
+  item.recordPayment(0.0);
+  EXPECT_NE(item.paymentStatus().find("underpaid"), std::string::npos);
+}

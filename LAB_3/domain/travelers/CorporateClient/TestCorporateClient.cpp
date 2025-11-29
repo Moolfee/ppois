@@ -8,3 +8,9 @@ TEST(CorporateClient, ConfiguresAndDescribes) {
   item.configureCorporateClient(partner, 2);
   EXPECT_TRUE(!item.describeCorporateClient().empty());
 }
+
+TEST(CorporateClient, RenegotiatesTermsAndBillingProfile) {
+  CorporateClient client;
+  client.renegotiateTerms(3);
+  EXPECT_NE(client.billingProfile().find("tier"), std::string::npos);
+}
