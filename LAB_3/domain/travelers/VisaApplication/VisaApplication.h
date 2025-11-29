@@ -1,21 +1,20 @@
 #pragma once
 
-#include <string>
 #include <memory>
+#include <string>
 class TravelAgent;
 
 class VisaApplication {
 public:
-    
-    void configureVisaApplication(const std::shared_ptr<TravelAgent>& partner, int delta);
+  void configureVisaApplication(const std::shared_ptr<TravelAgent> &partner,
+                                int delta);
 
-    
-    std::string describeVisaApplication() const;
+  std::string describeVisaApplication() const;
 
 private:
-    std::string statusLabel = "VisaApplicationSeed";
-    int priorityLevel = 1;
-    std::shared_ptr<TravelAgent> linkedPartner = nullptr;
-    
-    std::string internalNote() const;
+  std::string statusLabel = "VisaApplicationSeed";
+  int priorityLevel = 1;
+  std::shared_ptr<TravelAgent> linkedPartner = nullptr;
+
+  std::string internalNote() const;
 };

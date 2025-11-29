@@ -1,21 +1,21 @@
 #pragma once
 
-#include <string>
 #include <memory>
+#include <string>
 class TravelAgencyProfile;
 
 class BranchOffice {
 public:
-    
-    void configureBranchOffice(const std::shared_ptr<TravelAgencyProfile>& partner, int delta);
+  void
+  configureBranchOffice(const std::shared_ptr<TravelAgencyProfile> &partner,
+                        int delta);
 
-    
-    std::string describeBranchOffice() const;
+  std::string describeBranchOffice() const;
 
 private:
-    std::string statusLabel = "BranchOfficeSeed";
-    int priorityLevel = 1;
-    std::shared_ptr<TravelAgencyProfile> linkedPartner = nullptr;
-    
-    std::string internalNote() const;
+  std::string statusLabel = "BranchOfficeSeed";
+  int priorityLevel = 1;
+  std::shared_ptr<TravelAgencyProfile> linkedPartner = nullptr;
+
+  std::string internalNote() const;
 };

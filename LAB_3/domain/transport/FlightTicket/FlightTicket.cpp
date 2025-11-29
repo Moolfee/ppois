@@ -1,17 +1,22 @@
 #include "domain/transport/FlightTicket/FlightTicket.h"
 
-void FlightTicket::configureFlightTicket(const std::shared_ptr<TravelAgent>& partner, int delta) {
-    linkedPartner = partner;
-    priorityLevel += delta;
-    statusLabel = internalNote();
-    if (linkedPartner) { statusLabel += "-linked"; }
+void FlightTicket::configureFlightTicket(
+    const std::shared_ptr<TravelAgent> &partner, int delta) {
+  linkedPartner = partner;
+  priorityLevel += delta;
+  statusLabel = internalNote();
+  if (linkedPartner) {
+    statusLabel += "-linked";
+  }
 }
 
 std::string FlightTicket::describeFlightTicket() const {
-    const bool attached = static_cast<bool>(linkedPartner);
-    return statusLabel + "-" + std::to_string(priorityLevel) + (attached ? "-ready" : "-solo");
+  const bool attached = static_cast<bool>(linkedPartner);
+  return statusLabel + "-" + std::to_string(priorityLevel) +
+         (attached ? "-ready" : "-solo");
 }
 
 std::string FlightTicket::internalNote() const {
-    return statusLabel + "-" + std::string(linkedPartner ? "partnered" : "independent");
+  return statusLabel + "-" +
+         std::string(linkedPartner ? "partnered" : "independent");
 }

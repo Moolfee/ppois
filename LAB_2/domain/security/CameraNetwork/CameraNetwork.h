@@ -5,14 +5,12 @@
 
 class CameraNetwork {
 public:
-    
-    void recalibrateAngles(int blindSpots);
+  void recalibrateAngles(int blindSpots);
 
-    
-    std::string describeCoverage() const;
+  std::string describeCoverage() const;
 
 private:
-    int activeCameras = 12;
-    std::vector<std::string> zones = {};
-    bool hdEnabled = true;
+  int activeCameras = 12;
+  std::vector<std::string> zones = {};
+  bool hdEnabled = true;
 };

@@ -1,20 +1,18 @@
 #pragma once
 
+#include "domain/exceptions/VisitorLimitExceededException/VisitorLimitExceededException.h"
+#include "domain/gallery/GalleryMap/GalleryMap.h"
 #include <string>
 #include <vector>
-#include "domain/gallery/GalleryMap/GalleryMap.h"
-#include "domain/exceptions/VisitorLimitExceededException/VisitorLimitExceededException.h"
 
 class VisitorProfile {
 public:
-    
-    void logGuideInteraction(const std::string& guideName);
+  void logGuideInteraction(const std::string &guideName);
 
-    
-    std::string compileOverview() const;
+  std::string compileOverview() const;
 
 private:
-    std::string visitorName = "Guest";
-    std::vector<std::string> interestTags = {};
-    GalleryMap activeMap = {};
+  std::string visitorName = "Guest";
+  std::vector<std::string> interestTags = {};
+  GalleryMap activeMap = {};
 };

@@ -5,14 +5,12 @@
 
 class GalleryMap {
 public:
-    
-    void updateWing(const std::string& wingName);
+  void updateWing(const std::string &wingName);
 
-    
-    std::string mapDigest() const;
+  std::string mapDigest() const;
 
 private:
-    std::vector<std::string> highlightedWings = {};
-    std::string revisionTag = "v1";
-    bool printable = true;
+  std::vector<std::string> highlightedWings = {};
+  std::string revisionTag = "v1";
+  bool printable = true;
 };

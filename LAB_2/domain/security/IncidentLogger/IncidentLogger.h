@@ -5,14 +5,12 @@
 
 class IncidentLogger {
 public:
-    
-    void captureIncident(const std::string& details);
+  void captureIncident(const std::string &details);
 
-    
-    std::string summarizeIncidents() const;
+  std::string summarizeIncidents() const;
 
 private:
-    std::vector<std::string> events = {};
-    int unresolvedCount = 0;
-    bool notifyLeadership = false;
+  std::vector<std::string> events = {};
+  int unresolvedCount = 0;
+  bool notifyLeadership = false;
 };

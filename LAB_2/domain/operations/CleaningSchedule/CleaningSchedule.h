@@ -5,14 +5,12 @@
 
 class CleaningSchedule {
 public:
-    
-    void assignCaretaker(const std::string& caretakerName);
+  void assignCaretaker(const std::string &caretakerName);
 
-    
-    std::string outlineSanitationPlan() const;
+  std::string outlineSanitationPlan() const;
 
 private:
-    std::vector<std::string> tasks = {};
-    int assignedStaffCount = 0;
-    bool overnightRequired = false;
+  std::vector<std::string> tasks = {};
+  int assignedStaffCount = 0;
+  bool overnightRequired = false;
 };

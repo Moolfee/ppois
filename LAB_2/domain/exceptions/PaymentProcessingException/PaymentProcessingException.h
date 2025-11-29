@@ -5,17 +5,15 @@
 
 class PaymentProcessingException : public std::runtime_error {
 public:
-    
-    PaymentProcessingException(const std::string& channel, int cents, bool escalate);
+  PaymentProcessingException(const std::string &channel, int cents,
+                             bool escalate);
 
-    
-    std::string describeIssue() const;
+  std::string describeIssue() const;
 
-    
-    std::string paymentSignature() const;
+  std::string paymentSignature() const;
 
 private:
-    std::string paymentChannel = "terminal";
-    int centsValue = 0;
-    bool escalateAccounting = false;
+  std::string paymentChannel = "terminal";
+  int centsValue = 0;
+  bool escalateAccounting = false;
 };

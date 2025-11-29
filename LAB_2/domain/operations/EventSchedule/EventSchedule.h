@@ -5,14 +5,12 @@
 
 class EventSchedule {
 public:
-    
-    void bookSlot(const std::string& slot);
+  void bookSlot(const std::string &slot);
 
-    
-    std::string eventDigest() const;
+  std::string eventDigest() const;
 
 private:
-    std::vector<std::string> calendarBlocks = {};
-    std::string highlightedProgram = "Tour";
-    bool requiresPress = false;
+  std::vector<std::string> calendarBlocks = {};
+  std::string highlightedProgram = "Tour";
+  bool requiresPress = false;
 };

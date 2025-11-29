@@ -1,19 +1,17 @@
 #pragma once
 
+#include "domain/staff/Guard/Guard.h"
 #include <string>
 #include <vector>
-#include "domain/staff/Guard/Guard.h"
 
 class KeyCardLock {
 public:
-    
-    void grantAccess(const Guard& guard);
+  void grantAccess(const Guard &guard);
 
-    
-    std::string lockSignature() const;
+  std::string lockSignature() const;
 
 private:
-    std::string doorName = "Vault";
-    std::vector<std::string> permittedRoles = {};
-    bool auditEnabled = false;
+  std::string doorName = "Vault";
+  std::vector<std::string> permittedRoles = {};
+  bool auditEnabled = false;
 };

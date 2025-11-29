@@ -5,17 +5,14 @@
 
 class InvalidTicketException : public std::runtime_error {
 public:
-    
-    InvalidTicketException(const std::string& agent, int partySize, bool kiosk);
+  InvalidTicketException(const std::string &agent, int partySize, bool kiosk);
 
-    
-    std::string describeIssue() const;
+  std::string describeIssue() const;
 
-    
-    std::string ticketTag() const;
+  std::string ticketTag() const;
 
 private:
-    std::string agentName = "agent";
-    int invalidPartySize = 0;
-    bool kioskFlag = false;
+  std::string agentName = "agent";
+  int invalidPartySize = 0;
+  bool kioskFlag = false;
 };

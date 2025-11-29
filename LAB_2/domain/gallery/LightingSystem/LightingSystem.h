@@ -4,14 +4,12 @@
 
 class LightingSystem {
 public:
-    
-    void adjustSceneDynamics(int luxLevel);
+  void adjustSceneDynamics(int luxLevel);
 
-    
-    std::string sceneLabel() const;
+  std::string sceneLabel() const;
 
 private:
-    std::string ambiancePreset = "Neutral";
-    int dimmerLevel = 50;
-    bool motionReactive = true;
+  std::string ambiancePreset = "Neutral";
+  int dimmerLevel = 50;
+  bool motionReactive = true;
 };
