@@ -15,6 +15,4 @@ private:
   std::string statusLabel = "AirlineManagerSeed";
   int priorityLevel = 1;
   std::shared_ptr<PartnerAirline> linkedPartner = nullptr;
-
-  std::string internalNote() const;
 };

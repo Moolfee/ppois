@@ -15,6 +15,4 @@ private:
   std::string statusLabel = "ComplianceOfficerSeed";
   int priorityLevel = 1;
   std::shared_ptr<TravelPolicy> linkedPartner = nullptr;
-
-  std::string internalNote() const;
 };

@@ -10,12 +10,14 @@ public:
   configureBranchOffice(const std::shared_ptr<TravelAgencyProfile> &partner,
                         int delta);
 
+  void rerouteCalls();
+
+  std::string escalationPath() const;
+
   std::string describeBranchOffice() const;
 
 private:
   std::string statusLabel = "BranchOfficeSeed";
   int priorityLevel = 1;
   std::shared_ptr<TravelAgencyProfile> linkedPartner = nullptr;
-
-  std::string internalNote() const;
 };

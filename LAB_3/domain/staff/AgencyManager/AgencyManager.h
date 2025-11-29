@@ -15,6 +15,4 @@ private:
   std::string statusLabel = "AgencyManagerSeed";
   int priorityLevel = 1;
   std::shared_ptr<BranchOffice> linkedPartner = nullptr;
-
-  std::string internalNote() const;
 };

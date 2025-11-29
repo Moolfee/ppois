@@ -9,12 +9,14 @@ public:
   void configurePartnerHotel(const std::shared_ptr<ResortProfile> &partner,
                              int delta);
 
+  void setSeasonalRate(int factor);
+
+  std::string conciergeLine() const;
+
   std::string describePartnerHotel() const;
 
 private:
   std::string statusLabel = "PartnerHotelSeed";
   int priorityLevel = 1;
   std::shared_ptr<ResortProfile> linkedPartner = nullptr;
-
-  std::string internalNote() const;
 };

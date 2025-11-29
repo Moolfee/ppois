@@ -15,6 +15,4 @@ private:
   std::string statusLabel = "HotelManagerSeed";
   int priorityLevel = 1;
   std::shared_ptr<PartnerHotel> linkedPartner = nullptr;
-
-  std::string internalNote() const;
 };

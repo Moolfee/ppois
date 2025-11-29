@@ -16,6 +16,4 @@ private:
   std::string statusLabel = "CulturalWorkshopSeed";
   int priorityLevel = 1;
   std::shared_ptr<TourGuideProfile> linkedPartner = nullptr;
-
-  std::string internalNote() const;
 };

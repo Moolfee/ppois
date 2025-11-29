@@ -15,6 +15,4 @@ private:
   std::string statusLabel = "ExcursionPlanSeed";
   int priorityLevel = 1;
   std::shared_ptr<TourGuideProfile> linkedPartner = nullptr;
-
-  std::string internalNote() const;
 };

@@ -15,6 +15,4 @@ private:
   std::string statusLabel = "ScenicRouteSeed";
   int priorityLevel = 1;
   std::shared_ptr<ExcursionPlan> linkedPartner = nullptr;
-
-  std::string internalNote() const;
 };

@@ -16,6 +16,4 @@ private:
   std::string statusLabel = "TransportCoordinatorSeed";
   int priorityLevel = 1;
   std::shared_ptr<AirportTransfer> linkedPartner = nullptr;
-
-  std::string internalNote() const;
 };

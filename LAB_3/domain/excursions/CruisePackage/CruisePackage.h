@@ -15,6 +15,4 @@ private:
   std::string statusLabel = "CruisePackageSeed";
   int priorityLevel = 1;
   std::shared_ptr<MealPlan> linkedPartner = nullptr;
-
-  std::string internalNote() const;
 };

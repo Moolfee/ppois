@@ -4,19 +4,23 @@ void PaymentGateway::configurePaymentGateway(
     const std::shared_ptr<Invoice> &partner, int delta) {
   linkedPartner = partner;
   priorityLevel += delta;
-  statusLabel = internalNote();
+  statusLabel += "-" + std::string(linkedPartner ? "partnered" : "independent");
   if (linkedPartner) {
     statusLabel += "-linked";
   }
+}
+
+void PaymentGateway::flagFraudAttempt(const std::string &reason) {
+  statusLabel += "-fraud-" + reason;
+  priorityLevel += 2;
+}
+
+bool PaymentGateway::isOperational() const {
+  return priorityLevel > 0 && statusLabel.find("fraud") == std::string::npos;
 }
 
 std::string PaymentGateway::describePaymentGateway() const {
   const bool attached = static_cast<bool>(linkedPartner);
   return statusLabel + "-" + std::to_string(priorityLevel) +
          (attached ? "-ready" : "-solo");
-}
-
-std::string PaymentGateway::internalNote() const {
-  return statusLabel + "-" +
-         std::string(linkedPartner ? "partnered" : "independent");
 }

@@ -16,6 +16,4 @@ private:
   std::string statusLabel = "MarketingCampaignSeed";
   int priorityLevel = 1;
   std::shared_ptr<LoyaltyProgram> linkedPartner = nullptr;
-
-  std::string internalNote() const;
 };

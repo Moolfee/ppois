@@ -16,6 +16,4 @@ private:
   std::string statusLabel = "EmployeeProfileSeed";
   int priorityLevel = 1;
   std::shared_ptr<TravelAgencyProfile> linkedPartner = nullptr;
-
-  std::string internalNote() const;
 };

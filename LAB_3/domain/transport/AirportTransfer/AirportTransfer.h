@@ -15,6 +15,4 @@ private:
   std::string statusLabel = "AirportTransferSeed";
   int priorityLevel = 1;
   std::shared_ptr<FlightTicket> linkedPartner = nullptr;
-
-  std::string internalNote() const;
 };

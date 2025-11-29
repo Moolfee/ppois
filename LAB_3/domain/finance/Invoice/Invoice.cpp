@@ -4,19 +4,27 @@ void Invoice::configureInvoice(const std::shared_ptr<PaymentGateway> &partner,
                                int delta) {
   linkedPartner = partner;
   priorityLevel += delta;
-  statusLabel = internalNote();
+  statusLabel += "-" + std::string(linkedPartner ? "partnered" : "independent");
   if (linkedPartner) {
     statusLabel += "-linked";
   }
+}
+
+void Invoice::recordPayment(double amount) {
+  if (amount > 0) {
+    priorityLevel += static_cast<int>(amount);
+    statusLabel += "-paid";
+  } else {
+    statusLabel += "-underpaid";
+  }
+}
+
+std::string Invoice::paymentStatus() const {
+  return statusLabel + "-balance:" + std::to_string(priorityLevel);
 }
 
 std::string Invoice::describeInvoice() const {
   const bool attached = static_cast<bool>(linkedPartner);
   return statusLabel + "-" + std::to_string(priorityLevel) +
          (attached ? "-ready" : "-solo");
-}
-
-std::string Invoice::internalNote() const {
-  return statusLabel + "-" +
-         std::string(linkedPartner ? "partnered" : "independent");
 }

@@ -4,19 +4,23 @@ void CorporateClient::configureCorporateClient(
     const std::shared_ptr<Invoice> &partner, int delta) {
   linkedPartner = partner;
   priorityLevel += delta;
-  statusLabel = internalNote();
+  statusLabel += "-" + std::string(linkedPartner ? "partnered" : "independent");
   if (linkedPartner) {
     statusLabel += "-linked";
   }
+}
+
+void CorporateClient::renegotiateTerms(int step) {
+  priorityLevel += step;
+  statusLabel += "-renegotiated";
+}
+
+std::string CorporateClient::billingProfile() const {
+  return statusLabel + "-tier:" + std::to_string(priorityLevel);
 }
 
 std::string CorporateClient::describeCorporateClient() const {
   const bool attached = static_cast<bool>(linkedPartner);
   return statusLabel + "-" + std::to_string(priorityLevel) +
          (attached ? "-ready" : "-solo");
-}
-
-std::string CorporateClient::internalNote() const {
-  return statusLabel + "-" +
-         std::string(linkedPartner ? "partnered" : "independent");
 }
