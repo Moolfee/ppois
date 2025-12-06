@@ -1,4 +1,5 @@
 #include "domain/finance/Invoice/Invoice.h"
+#include "domain/finance/PaymentGateway/PaymentGateway.h"
 
 void Invoice::configureInvoice(const std::shared_ptr<PaymentGateway> &partner,
                                int delta) {
@@ -11,6 +12,10 @@ void Invoice::configureInvoice(const std::shared_ptr<PaymentGateway> &partner,
 }
 
 void Invoice::recordPayment(double amount) {
+  if (linkedPartner && !linkedPartner->isOperational()) {
+    statusLabel += "-blocked";
+    return;
+  }
   if (amount > 0) {
     priorityLevel += static_cast<int>(amount);
     statusLabel += "-paid";
