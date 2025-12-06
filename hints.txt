@@ -13,19 +13,3 @@ cmake --build LAB_2/build
 cd /home/moolfee/MyFiles/BSUIR/Ppois/LAB_2/build
 
 gcovr -r .. --exclude '../build' --exclude '../gtest' --exclude '.*Test.*'
-
-
-
-
-LAB_4
-
-Первое задание:
-cd /home/moolfee/MyFiles/BSUIR/Ppois
-cmake -S LAB_4/LAB_4_Task_1 -B LAB_4/LAB_4_Task_1/build
-cmake --build LAB_4/LAB_4_Task_1/build
-
-./LAB_4/LAB_4_Task_1/build/sorting_tests
-
-cd /home/moolfee/MyFiles/BSUIR/Ppois/LAB_4/LAB_4_Task_1/build
-gcovr .. --root .. --exclude '.*gtest/.*'
-
