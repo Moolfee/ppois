@@ -1,6 +1,7 @@
 #include "domain/staff/MaintenanceChief/MaintenanceChief.h"
 
 void MaintenanceChief::auditSecuritySystem(SecuritySystem &system) {
+  system.synchronizeGuard(onsiteGuard);
   pendingTasks += 1;
   standbyGeneratorReady = pendingTasks < 5;
   const std::string digest = system.securityDigest();

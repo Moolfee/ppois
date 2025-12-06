@@ -1,6 +1,7 @@
 #include "domain/security/KeyCardLock/KeyCardLock.h"
 
-void KeyCardLock::grantAccess(const Guard &guard) {
+void KeyCardLock::grantAccess(Guard &guard) {
+  linkedSystem.synchronizeGuard(guard);
   permittedRoles.push_back(doorName);
   const std::string summary = guard.guardSummary();
   auditEnabled = summary.find("HIGH") != std::string::npos;
