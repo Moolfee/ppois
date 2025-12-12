@@ -9,7 +9,16 @@ cmake --build LAB_2/build
 Запуск тестов
 ./LAB_2/build/gallery_tests
 
-Вывод покрытия LAB_2 и LAB_3
-cd /home/moolfee/MyFiles/BSUIR/Ppois/LAB_2/build
+Сборка LAB_4/Task_1
+cmake -S LAB_4/Task_1 -B LAB_4/Task_1/build
+cmake --build LAB_4/Task_1/build
+
+
+Запуск тестов LAB_4/Task_1
+./LAB_4/Task_1/build/sorters_tests
+
+
+Вывод покрытия
+cd build
 
 gcovr -r .. --exclude '../build' --exclude '../gtest' --exclude '.*Test.*'

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(SortingLabTests LANGUAGES CXX)
+project(SortingAlgorithmsTests LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -10,19 +10,20 @@ list(FILTER CLASS_SOURCES EXCLUDE REGEX ".*/Test[^/]*\\.cpp$")
 
 file(GLOB_RECURSE TEST_SOURCES "domain/*/Test*.cpp")
 
-add_library(sorting_lib ${CLASS_SOURCES})
-target_include_directories(sorting_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+add_library(sorters_lib ${CLASS_SOURCES})
+target_include_directories(sorters_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_library(simple_gtest STATIC gtest/gtest_main.cpp)
-target_include_directories(simple_gtest PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/gtest)
+target_include_directories(simple_gtest PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
+                                              ${CMAKE_CURRENT_SOURCE_DIR}/gtest)
 
-add_executable(sorting_tests ${TEST_SOURCES})
-target_include_directories(sorting_tests PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(sorting_tests PRIVATE sorting_lib simple_gtest)
+add_executable(sorters_tests ${TEST_SOURCES})
+target_include_directories(sorters_tests PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(sorters_tests PRIVATE sorters_lib simple_gtest)
 
 option(ENABLE_COVERAGE "Enable gcov/lcov coverage flags" ON)
 if(ENABLE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-    foreach(target_name IN ITEMS sorting_lib sorting_tests simple_gtest)
+    foreach(target_name IN ITEMS sorters_lib sorters_tests simple_gtest)
         target_compile_options(${target_name} PRIVATE -O0 -g --coverage)
         target_link_options(${target_name} PRIVATE --coverage)
     endforeach()
