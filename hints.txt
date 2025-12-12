@@ -30,6 +30,6 @@ cd build
 
 gcovr -r .. --exclude '../build' --exclude '../gtest' --exclude '.*Test.*'
 
-Вывод покрытия LAB_4/Task_2 (header-only, фильтруем каталог Graph)
-cd /home/moolfee/MyFiles/BSUIR/Ppois/LAB_4/Task_2/build
+Вывод покрытия LAB_4/Task_2 
+
 gcovr -r .. --filter '../Graph' --exclude '../build' --exclude '../gtest' --exclude '../Graph/Test.*'
