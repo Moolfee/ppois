@@ -1,11 +1,9 @@
-# Build outputs
 **/build/
 **/cmake-build*/
 **/CMakeFiles/
 CMakeCache.txt
 Testing/
 
-# Compiled artifacts
 *.o
 *.obj
 *.a
@@ -19,7 +17,6 @@ Testing/
 *.gcno
 *.gcov
 
-# Temporary and IDE files
 .vscode/
 .idea/
 *.user
