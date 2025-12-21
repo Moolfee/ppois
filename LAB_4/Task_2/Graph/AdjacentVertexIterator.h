@@ -4,7 +4,6 @@
 #include "Vertex.h"
 #include <iterator>
 
-// Последовательный итератор по вершинам, смежным заданной вершине.
 template <typename T> class AdjacentVertexIterator {
 public:
   using iterator_category = std::forward_iterator_tag;

@@ -34,7 +34,6 @@ TEST(Graph, IteratesAdjacentVerticesForward) {
     neighbours.push_back((*it)->data);
   }
   EXPECT_EQ(neighbours.size(), 2u);
-  
   EXPECT_EQ(neighbours[0], 'C');
   EXPECT_EQ(neighbours[1], 'B');
 }

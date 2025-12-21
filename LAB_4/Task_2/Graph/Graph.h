@@ -13,8 +13,6 @@
 #include <utility>
 #include <vector>
 
-// Неориентированный граф на структуре Вирта (мультисписки инцидентности).
-// Шаблонный тип T — данные, хранимые в вершинах.
 template <typename T> class Graph {
 public:
   using vertex_handle = Vertex<T> *;

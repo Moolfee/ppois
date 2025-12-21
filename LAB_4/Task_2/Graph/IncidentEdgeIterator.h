@@ -4,7 +4,6 @@
 #include "Vertex.h"
 #include <iterator>
 
-// Бидирекционный итератор по инцидентным ребрам вершины.
 template <typename T> class IncidentEdgeIterator {
 public:
   using iterator_category = std::bidirectional_iterator_tag;

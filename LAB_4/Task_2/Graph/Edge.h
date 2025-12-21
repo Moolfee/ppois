@@ -4,7 +4,6 @@
 
 template <typename T> struct Vertex;
 
-// Ребро, связывающее две вершины и участвующее в списках инцидентности.
 template <typename T> struct Edge {
   Edge(Vertex<T> *left, Vertex<T> *right)
       : endpointA(left), endpointB(right), nextFromA(nullptr),
