@@ -34,6 +34,15 @@ gcovr -r .. --exclude '../build' --exclude '../gtest' --exclude '.*Test.*'
 
 gcovr -r .. --filter '../Graph' --exclude '../build' --exclude '../gtest' --exclude '../Graph/Test.*'
 
+
+
+
+
 cmake -S LAB_ADD/LAB_ADD_7 -B LAB_ADD/LAB_ADD_7/build && cmake --build LAB_ADD/LAB_ADD_7/build && ./LAB_ADD/LAB_ADD_7/build/merkle_demo
-cmake -S LAB_ADD/LAB_ADD_15 -B LAB_ADD/LAB_ADD_15/build && cmake --build LAB_ADD/LAB_ADD_15/build && ./LAB_ADD/LAB_ADD_15/build/astar_demo
-make -S LAB_ADD/LAB_ADD_24 -B LAB_ADD/LAB_ADD_24/build && cmake --build LAB_ADD/LAB_ADD_24/build && ./LAB_ADD/LAB_ADD_24/build/fractal_demo
+
+cmake -S LAB_ADD/LAB_ADD_15 -B LAB_ADD/LAB_ADD_15/build
+cmake --build LAB_ADD/LAB_ADD_15/build
+./LAB_ADD/LAB_ADD_15/build/astar_demo
+
+
+cmake -S LAB_ADD/LAB_ADD_24 -B LAB_ADD/LAB_ADD_24/build && cmake --build LAB_ADD/LAB_ADD_24/build && ./LAB_ADD/LAB_ADD_24/build/fractal_demo
